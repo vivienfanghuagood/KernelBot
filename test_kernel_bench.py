@@ -45,7 +45,7 @@ if __name__ == "__main__":
     ds = load_dataset("ScalingIntelligence/KernelBench")
     
     result_files = []
-    for item in ds["level_1"]:
+    for item in ds["level_2"]:
         code = item["code"]
         name = item["name"]
         index = item["problem_id"]

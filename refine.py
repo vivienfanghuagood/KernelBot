@@ -5,7 +5,7 @@ import os
 TEMPLATE = """
 Please refine the code, the origin code is as below: {}
 
-Please refine the implementation of ModelNew, speed up the latency running on modern GPU(such as H100). 
+Please refine the implementation of ModelNew, speed up the latency running on modern GPU(such as H100). Please do not just call pure-torch operation in kernel implementation.
 Output the new code in codeblocks. Please generate real code, NOT pseudocode, make sure the code compiles and is fully functional. Just output the new model code, no other text, and NO testing code! Do not Delete the main function.
 """
 

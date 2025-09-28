@@ -304,14 +304,18 @@ class KernelLLM:
         Returns:
             str: The generated Triton module.
         """
-        prompt = PROMPT_TEMPLATE.format(code)
-        # triton_code = self.generate_call_claude_api(prompt, max_new_tokens)
-        if self.backend == "gpt5":
-            triton_code = self.generate_call_openai_api(prompt, max_new_tokens)
-        elif self.backend == "claude":
-            triton_code = self.generate_call_claude_api(prompt, max_new_tokens)
-        
-        return code + "\n" + triton_code.strip("```python").strip("```") + benchmark_code
+        try:
+            prompt = PROMPT_TEMPLATE.format(code)
+            # triton_code = self.generate_call_claude_api(prompt, max_new_tokens)
+            if self.backend == "gpt5":
+                triton_code = self.generate_call_openai_api(prompt, max_new_tokens)
+            elif self.backend == "claude":
+                triton_code = self.generate_call_claude_api(prompt, max_new_tokens)
+            
+            return code + "\n" + triton_code.strip("```python").strip("```") + benchmark_code
+        except Exception as e:
+            print(e)
+            return "# generation faild"
     def run_repl(self):
         """
         Run a REPL for the model. The user can input code and the model will try to optimize it with Triton kernels.

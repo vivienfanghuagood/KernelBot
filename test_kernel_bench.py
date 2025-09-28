@@ -1,4 +1,4 @@
-from kernel import KernelLLM
+from generator import KernelLLM
 
 # Initialize the model
 # Define your PyTorch module

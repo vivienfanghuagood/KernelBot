@@ -37,11 +37,29 @@ def generate_random_filename(base_dir="./generated/", extension=".py"):
 
 if __name__ == "__main__":
     import os
-    
+
     model = KernelLLM(backend="gpt5")
-    optimized_code = model.generate_triton(pytorch_code, max_new_tokens=8192)
-    random_file = generate_random_filename()
-    with open(random_file, "w") as writer:
-        writer.write(optimized_code)
+    from datasets import load_dataset
+
+    # Login using e.g. `huggingface-cli login` to access this dataset
+    ds = load_dataset("ScalingIntelligence/KernelBench")
     
-    os.system(f"python3 {random_file}")
+    result_files = []
+    for item in ds["level_1"]:
+        code = item["code"]
+        name = item["name"]
+        index = item["problem_id"]
+        # import pdb;pdb.set_trace()
+
+        optimized_code = model.generate_triton(code, max_new_tokens=8192)
+        # random_file = generate_random_filename()
+        random_file = f"./generated/{index}_{name}.py"
+        with open(random_file, "w") as writer:
+            writer.write(optimized_code)
+        result_files.append(random_file)
+    
+    for file in result_files:
+        os.system(f"python3 {file}")
+        print(file)
+
+    

@@ -155,8 +155,9 @@ def test_latency(model1, model2, inputs, warmup=10, iters=100):
 # -------------------------------
 if __name__ == "__main__":
     inputs = get_inputs()
-    model1 = Model().cuda()
-    model2 = ModelNew().cuda()
+    inputs = [i.to("cuda") for i in inputs]
+    model1 = Model(*get_init_inputs()).cuda()
+    model2 = ModelNew(*get_init_inputs()).cuda()
     test_latency(model1, model2, inputs)
 """
 
